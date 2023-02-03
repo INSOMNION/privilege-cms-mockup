@@ -1,0 +1,481 @@
+import { 
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+
+@Component({
+  selector: 'app-page-navigator',
+  templateUrl: './page-navigator.component.html',
+  styleUrls: [
+    './page-navigator.component.css'
+  ]
+})
+export class PageNavigatorComponent implements OnInit, OnChanges, AfterViewInit {
+
+  // Props
+  @Input() total: number = 1
+  @Input() limit: number = 10
+  @Input() active: number = 1
+  @Input() range: number = 2
+  @Input() colorActive: {
+    [key: string]: string,
+  } = {
+    'background-color': 'green',
+    'color': 'white'
+  }
+  @Input() colorNormal: {
+    [key: string]: string,
+  } = {
+    'background-color': 'white',
+    'color': 'black'
+  }
+
+  @Input() onInit: Function = (): void => {}
+
+  // Event
+  @Output() onChange: EventEmitter<any> = new EventEmitter()
+
+  // State
+  navigator: number[] = []
+  current: number = 0
+
+  constructor() { }
+
+  ngAfterViewInit(): void {
+    console.log(this.current)
+    this.onInit()
+  }
+
+  ngOnInit(): void {
+    console.log(this.colorActive, this.colorNormal)
+    this.change(this.total, this.active)
+  }
+
+
+  public first (): void {
+    if (this.current != 1) {
+      this.change(this.total, 1)
+    }
+  }
+
+  public previous (): void {
+    let current = this.current
+    let previous = current - 1
+    this.change(this.total, previous)
+  }
+
+  public next (): void {
+    let current = this.current
+    let next = current + 1
+    this.change(this.total, next)
+  }
+
+  public last (): void {
+    if (this.current != this.total) {
+      this.change(this.total, this.total)
+    }    
+  }
+
+  public pager (
+    total: number,
+    current: number,
+    range: number
+  ): void {  
+    // Reset Navigator
+    this.navigator = []
+    // Define Current Page
+    current = current < 1 ? 1 : current
+    current = current > this.total ? this.total : current
+    // Define Max & Min Range
+    let min = current - range
+    let max = current + range
+    let forward = min < 1 ? Math.abs(min - 1) : 0
+    let backward =  max > total ? total - max : 0
+    // Add Additional Page
+    max = max + forward
+    min = min + backward
+    // Loop Paging
+    for (let index = min; index <= max; index++) {
+      if (index >= 1 && index <= total) {
+        this.navigator.push(index)
+      }
+    }
+    // Set Current
+    this.current = current > total ? total : current
+  }
+
+  public change (total: number, page: number): void {
+    if (page != this.current) {
+      if (page < 1) {
+        this.current = 1
+      }
+      else if (page > total) {
+        this.current = total
+      }
+      else {
+        this.current = page
+        this.onChange.emit(this.current)
+      }
+      // Current Page
+      this.pager(total, this.current, this.range)
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['total']) {
+      this.total = changes['total'].currentValue
+      this.pager(this.total, this.current, this.range)
+    }
+
+    if (changes['limit']) {
+      this.pager(this.total)
+    }
+  }
+}
+
+
+.action button {
+  min-width: 10em;
+  padding: 1em;
+  text-transform: uppercase;
+  margin-right: 1em;
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1em;
+  grid-template-columns: 100%;
+  transition: .5s;
+}
+
+.list.set-item-1 {
+  grid-template-columns: 100%;
+}
+
+.list.set-item-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.list.set-item-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.list.set-item-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.item {
+  background-color: white;
+  display: grid;
+  gap: 1em;
+  padding: 1em;
+  transition: .5s;
+  text-align: center;
+}
+
+.item > * {
+  align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item.active,
+.item:hover {
+  background-color: rgba(189,207,0,.5);
+}
+
+.item .cover-image {
+  display: none;
+}
+
+.item.active .cover-image,
+.item:hover .cover-image {
+  display: grid;
+}
+
+.icon-adding,
+.icon-added,
+.icon-remove {
+  display: none;
+}
+
+.item.active .icon-added {
+  display: block;
+}
+
+.item:hover .icon-adding {
+  display: block;
+}
+
+.item.active:hover .icon-adding,
+.item.active:hover .icon-added {
+  display: none;
+}
+
+.item.active:hover .icon-remove {
+  display: block;
+}
+
+.item [col-1] {
+  grid-area: logo;
+}
+
+.item [col-1] .image{
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 1.5em;
+  background-size: cover;
+  background-position: center;
+  background-color: #D2D707;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.item [col-2] {
+  grid-area: data-main;
+}
+
+.item [col-3] {
+  grid-area: data-start;
+}
+
+.item [col-4] {
+  grid-area: data-end;
+}
+
+.item [col-5] {
+  grid-area: action;
+  text-align: right;
+}
+
+.list.privilege-info {
+  font-size: 1.25em;
+}
+
+i {
+  margin: 0 .5em;
+}
+
+.list.privilege-info .item{
+  grid-template-columns: 100px auto 15% 15% 20%;
+  grid-template-rows: minmax(100px, auto);
+  grid-template-areas: 
+    'logo data-main data-start data-end action'
+  ;
+}
+
+.page-navigator {
+  margin: 1em 0;
+  font-size: 1.5em;
+}
+
+
+/* Medium Size */
+@media screen and (max-width: 1280px) {
+
+  .item [col-5] {
+    text-align: center;
+  }
+
+  .list.privilege-info .item{
+    grid-template-columns: 100px auto auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 
+      'logo data-main data-main'
+      'logo data-start data-end'
+      'logo action action'
+    ;
+  }
+
+}
+
+/* Small Size */
+@media screen and (max-width: 640px) {
+
+  .item [col-1] .image{
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+  }
+
+  .list.privilege-info .item{
+    grid-template-columns: minmax(80px, auto);
+    grid-template-rows: auto;
+    grid-template-areas: 
+      'logo'
+      'data-main'
+      'data-start'
+      'data-end'
+      'action'
+    ;
+  }
+
+}
+
+
+  public pager (
+    total: number,
+    current: number,
+    range: {
+      forward: number,
+      backward: number
+    }
+  ): void {  
+    // Reset Navigator
+    this.navigator = []
+    // Define Current Page
+    current = current < 1 ? 1 : current
+    current = current > this.total ? this.total : current
+    // Define Max & Min Range
+    let min = current - range.backward
+    let max = current + range.forward
+    let forward = min < 1 ? Math.abs(min - 1) : 0
+    let backward =  max > total ? total - max : 0
+    // Add Additional Page
+    max = max + forward
+    min = min + backward
+    // Loop Paging
+    for (let index = min; index <= max; index++) {
+      if (index >= 1 && index <= total) {
+        this.navigator.push(index)
+      }
+    }
+    // Set Current
+    this.current = current > total ? total : current
+  }
+
+  import { 
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+
+@Component({
+  selector: 'app-page-navigator',
+  templateUrl: './page-navigator.component.html',
+  styleUrls: [
+    './page-navigator.component.css'
+  ]
+})
+export class PageNavigatorComponent implements OnInit, OnChanges, AfterViewInit {
+
+  // Props
+  @Input() total: number = 0
+  @Input() limit: number = 10
+  @Input() active: number = 1
+
+  @Input() forward: number = 2
+  @Input() backward: number = 2
+
+  @Input() onInit: Function = (): void => {}
+
+  // Event
+  @Output() onChange: EventEmitter<any> = new EventEmitter()
+
+  // State
+  navigator: number[] = []
+  page: number = 0
+  current: number = 0
+  slot: number = 0
+
+  constructor() { }
+
+  ngAfterViewInit(): void {
+
+    this.onInit()
+  }
+
+  ngOnInit(): void {
+    // Init Page Slot
+    this.slot = this.limit
+    // Page Calculate
+    this.page = Math.ceil(this.total / this.limit)
+    this.change(this.total, this.active)
+  }
+
+  public first (): void {
+    if (this.current != 1) {
+      this.change(this.total, 1)
+    }
+  }
+
+  public previous (): void {
+    let current = this.current
+    let previous = current - 1
+    this.change(this.total, previous)
+  }
+
+  public next (): void {
+    let current = this.current
+    let next = current + 1
+    this.change(this.total, next)
+  }
+
+  public last (): void {
+    if (this.current != this.total) {
+      this.change(this.total, this.total)
+    }    
+  }
+
+
+  public change (page: number): void {
+    if (page != this.current) {
+      if (page < 1) {
+        this.current = 1
+      }
+      else if (page > this.total) {
+        this.current = this.total
+      }
+      else {
+
+        // Reset Navigator
+        this.navigator = []
+        // Define Current Page
+        page = page < 1 ? 1 : page
+        page = page > this.total ? this.total : page
+
+        // Define Max & Min Range (Navigator)
+        let min = page - range.backward
+        let max = page + range.forward
+
+      }
+
+
+      
+
+      // Current Page
+      this.pager(total, this.current, {
+        forward: this.forward,
+        backward: this.backward
+      })
+
+      this.onChange.emit(this.current)
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['total'] || changes['limit']) {
+      console.log(
+        'OnChange',
+        changes['total'], 
+        changes['limit']
+      )
+    }
+  }
+}

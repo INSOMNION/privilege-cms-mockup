@@ -1,0 +1,48 @@
+<div class="no-select text center" style="background-color: white;">
+  <div>
+    {{ active.date }}
+    {{ months[month].full }} {{ historicalYear }}
+  </div>
+  <p>
+    <button (click)="goto(year, month - 1)"> Back </button>
+    <button (click)="goto(today.year, today.month)"> Today </button>
+    <button (click)="goto(year, month + 1)"> Next </button>
+  </p>
+  <div class="calendar-container">
+    <div class="calendar">
+      <div 
+        class="week"
+        *ngFor="let day of days; let i = index">
+        <div
+          class="day text uppercase weekday"
+          [ngStyle]="{
+            'background': colors[i]
+          }"> 
+          <b>{{ day.short }}</b>
+        </div>
+      </div>
+    </div>
+    <hr [ngStyle]="{'margin': '1em 0'}">
+    <div class="calendar">
+      <div 
+        class="week"
+        *ngFor="let item of calendar"
+        [attr.day]="item.day"
+        (click)="
+          item.month == month ? onPickDate(item.iso) : null
+        ">
+          <div
+            class="day cursor-pointer"
+            [attr.disabled]="item.month != month"
+            [ngClass]="{
+              'today': item.iso == today.iso,
+              'active shadow': item.iso == active.iso,
+              'disabled': item.month != month
+            }">
+            {{ item.date }}
+          </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,27 @@
+<div class="template">
+  <div class="top-bar centralize shadow">
+    <p>
+      <i 
+        class="fa-solid fa-bars fa-2x cursor-pointer" 
+        (click)="page.menu = !page.menu"
+        style="margin-left: .5em;"></i>
+    </p>
+    <p class="text center bold uppercase">
+      {{ page.title }}
+    </p>
+  </div>
+  <div class="menu shadow" [ngClass]="{
+    'active': page.menu
+  }">
+    <app-menu (changePage)="changePage($event)"></app-menu>
+  </div>
+  <div 
+    class="page-container-curtain"
+    (click)="page.menu = !page.menu"></div>
+  <div class="page-container">
+    <div 
+      class="page-container-curtain"
+      (click)="page.menu = !page.menu"></div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

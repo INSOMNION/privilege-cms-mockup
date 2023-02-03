@@ -1,0 +1,54 @@
+<div class="navigator-container">
+  <div class="navigator sub-navigator">
+    Page {{ paging.page }} of {{ paging.all }}
+  </div>
+  <div class="navigator">
+    <a
+      class="page-control link-backword"
+      (click)="first()">
+      <i class="fas fa-backward"></i>
+    </a>
+    <a
+      class="page-control link-previous"
+      (click)="previous()">
+      <i class="fas fa-caret-left"></i>
+    </a>
+    <a
+      class="page-link link-page"
+      *ngFor="let i of navigator"
+      [ngClass]="{
+        'link-active': i == paging.page
+      }"
+      (click)="change(i)">
+      {{ i }}
+    </a>
+    <a 
+      class="page-control link-next"
+      (click)="next()">
+      <i class="fa fa-caret-right"></i>
+    </a>
+    <a
+      class="page-control link-forward"
+      (click)="last()">
+      <i class="fa fa-forward"></i>
+    </a>
+  </div>
+  <div class="navigator page-navigator sub-navigator">
+    <div class="page-limit left">
+      <span>Showing</span>
+    </div>
+    <div class="page-limit ">
+      <input 
+        type="range"
+        [min]="slot.min"
+        [max]="slot.max"
+        [step]="limit"
+        [value]="slot.value"
+        (change)="slide($event);"
+      >
+    </div>
+    <div class="page-limit right">
+      <span>{{ slot.value }} item(s)</span>
+    </div>
+  </div>
+</div>

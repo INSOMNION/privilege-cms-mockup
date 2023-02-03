@@ -1,0 +1,258 @@
+
+.action button {
+  min-width: 10em;
+  padding: 1em;
+  text-transform: uppercase;
+  margin-right: 1em;
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1em;
+  grid-template-columns: 100%;
+  transition: .5s;
+}
+
+.list.set-item-1 {
+  grid-template-columns: 100%;
+}
+
+.list.set-item-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.list.set-item-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.list.set-item-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.item {
+  background-color: white;
+  display: grid;
+  gap: 1em;
+  padding: 1em;
+  transition: .5s;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.item > * {
+  align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item.active,
+.item:hover {
+  background-color: rgba(189,207,0,.1);
+  border: 1px solid rgba(189,207,0);
+}
+
+.item .cover-image {
+  display: none;
+}
+
+.item.active .cover-image,
+.item:hover .cover-image {
+  display: grid;
+}
+
+.icon-adding,
+.icon-added,
+.item.active:hover .icon-adding {
+  display: none;
+}
+
+.item.active .icon-added,
+.item:hover .icon-adding {
+  display: block;
+}
+
+.item [col-1] {
+  grid-area: logo;
+}
+
+.item [col-1] .image{
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  font-size: 1.5em;
+  background-size: cover;
+  background-position: center;
+  background-color: #D2D707;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.item [col-2] {
+  grid-area: data-main;
+}
+
+.item [col-3] {
+  grid-area: data-start;
+}
+
+.item [col-4] {
+  grid-area: data-end;
+}
+
+.item [col-5] {
+  grid-area: action;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+
+.list.privilege-info {
+  font-size: 1.25em;
+}
+
+i {
+  margin: 0 .5em;
+}
+
+.list.privilege-info .item{
+  grid-template-columns: 100px auto 15% 15% 20%;
+  grid-template-rows: minmax(100px, auto);
+  grid-template-areas: 
+    'logo data-main data-start data-end action'
+  ;
+}
+
+.page-navigator {
+  margin: 1em 0;
+  font-size: 1.5em;
+}
+
+.page-navigator  a.link-active {
+  background-color: rgba(189,207,0,1);
+  color: white;
+}
+
+.item button {
+  background: transparent;
+  border: 0;
+  padding: 1em;
+  text-transform: uppercase;
+}
+
+.item button {
+  cursor: pointer;
+  font-size: .8em;
+  font-weight: bold;
+}
+
+.item button.info {
+  color: #FFF;
+  background-color: #F3A52D;
+}
+
+.item button.add {
+  color: #FFF;
+  background-color: #BDCF01;
+}
+
+.item button.remove {
+  color: #FFF;
+  background-color: #f23e25;
+}
+
+.item button.info:hover {
+  color: #FFF;
+  background-color: rgb(223, 145, 25);
+}
+
+.item button.add:hover {
+  background-color: rgb(169, 187, 1);
+}
+
+.item button.remove:hover {
+  background-color: rgb(222, 42, 17);
+}
+
+.preview-body {
+  background-color: white;
+  margin: 0 auto;
+  width: 70%;
+  padding: 1em 5%;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+    'header'
+    'body'
+    'footer'
+  ;
+}
+
+.preview-body [header] {
+  grid-area: header;
+  max-height: 10vh;
+}
+
+.preview-body [body] {
+  grid-area: body;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+}
+
+.preview-body [footer] {
+  grid-area: footer;
+  max-height: 10vh;
+}
+
+
+/* Medium Size */
+@media screen and (max-width: 1280px) {
+
+  .item [col-5] {
+    text-align: center;
+  }
+
+  .list.privilege-info .item{
+    grid-template-columns: 100px auto auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 
+      'logo data-main data-main'
+      'logo data-start data-end'
+      'action action action'
+    ;
+  }
+}
+
+/* Small Size */
+@media screen and (max-width: 640px) {
+
+  .preview-body {
+    width: 90%;
+  }
+
+  .item [col-1] .image{
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+  }
+
+  .list.privilege-info .item{
+    grid-template-columns: minmax(80px, auto);
+    grid-template-rows: auto;
+    grid-template-areas: 
+      'logo'
+      'data-main'
+      'data-start'
+      'data-end'
+      'action'
+    ;
+  }
+
+}

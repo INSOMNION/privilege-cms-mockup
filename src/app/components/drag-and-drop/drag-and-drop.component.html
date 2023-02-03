@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="list">
+    <div
+      class="item"
+      *ngFor="let item of list, index as i"
+      draggable="true"
+      (dragover)="over($event, i)"
+      (dragstart)="start($event, i)"
+      (drop)="drop($event, i)"
+      [attr.item]="i">
+        
+        
+        {{ item }}
+
+    </div>
+    <div class="item" (drop)="drop($event, current)" [ngStyle]="{
+      'background': 'red'
+    }">
+      <br>
+    </div>
+  </div>
+</div>

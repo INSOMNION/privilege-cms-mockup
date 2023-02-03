@@ -1,0 +1,71 @@
+:root {
+  --font: "Kanit", sans-serif;
+  --shadow: 0 0.25em .25em rgb(0 0 0 / 10%);
+  --menu-width: 20em;
+}
+
+.template {
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto minmax(auto, 100%);
+  grid-auto-rows: minmax(0, 4em) auto;
+  grid-template-areas:
+    'top-bar top-bar'
+    'page-container page-container'
+  ;
+}
+
+.top-bar,
+.menu,
+.page-container {
+  display: grid;
+  background-color: rgba(255, 255, 255, 1);
+  transition: .5s;
+  overflow: hidden;
+}
+
+.top-bar {
+  grid-area: top-bar;
+  z-index: 1;
+  height: 4em;
+  grid-template-columns: minmax(auto, 10%) auto;
+}
+
+.menu {
+  height: calc(100vh - 4em);
+  bottom: 0;
+  position: fixed;
+  grid-area: main-menu;
+  z-index: 1;
+  width: 20em;
+  margin-left: -20em;
+  box-shadow: var(--shadow);
+}
+
+.menu.active {
+  margin-left: 0;
+}
+
+.menu.active + .page-container-curtain {
+  display: block;
+}
+
+.page-container {
+  grid-area: page-container;
+  align-self: start;
+  background-color: transparent;
+  margin-left: 0em;
+  /* z-index: 1; */
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+.page-container-curtain {
+  display: none;
+  background-color: rgb(100,100,100, .25);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}

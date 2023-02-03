@@ -1,0 +1,281 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { options } from './campaign-quota.data';
+import { QuotaService } from './campaign-quota.service';
+
+@Component({
+  selector: 'app-campaign-quota',
+  templateUrl: './campaign-quota.component.html',
+  styleUrls: ['./campaign-quota.component.css'],
+  providers: [
+    QuotaService
+  ]
+})
+export class CampaignQuotaComponent implements OnInit {
+  
+  // Ouota Input Options
+  options = options
+
+  @Input() duration: {
+    start: Date,
+    stop: Date
+  } = {
+    start: null as any,
+    stop: null as any,
+  }
+  
+  quota: {
+    type: number,
+    total: number,
+    separate: number,
+    period: number,
+    days: number,
+    mobile: number,
+    fbb: number,
+  } = {
+    type: 0,
+    total: 0,
+    separate: 0,
+    period: 0,
+    days: 0,
+    mobile: 0,
+    fbb: 0,
+  }
+
+  quotaNotice: {
+    email: number,
+    sms: number,
+    inputEmail: string,
+    inputPhone: string,
+    listEmail: string[],
+    listPhone: string[],
+  } = {
+    email: 0,
+    sms: 0,
+    inputEmail: '',
+    inputPhone: '',
+    listEmail: [
+      'arnonkon@ais.co.th'
+    ],
+    listPhone: [
+      '0939604144',
+      '66939604144'
+    ],
+  }
+
+  quotaList: {
+    begin: Date,
+    end: Date,
+  }[][] = []
+
+  constructor(
+    private router: Router,
+    private quotaService: QuotaService
+  ) { }
+
+  ngOnInit(): void {
+    // Initialize
+    console.log('Init', this.router.url)
+    // TODO: Mockup Campaign Duration
+    this.duration = {
+      start: new Date('2022-01-01'),
+      stop: new Date('2024-05-01'),
+    }
+  }
+
+  goto (path: string) {
+    this.router.navigateByUrl(path)
+  }
+
+  existingPhone (phone: string): boolean {
+    // Get number without prefix
+    let removePrefix = (input: string) => input.substring(
+      input.length - 9, input.length
+    )
+    // Check duplicate
+    return this.quotaNotice.listPhone.every(
+      e => removePrefix(e) != removePrefix(phone)
+    )
+  }
+
+  existingEmail (email: string): boolean {
+    return this.quotaNotice.listEmail.every(
+      e => e != email
+    )
+  }
+
+  addNoticeEmail(): void {
+    // Email input value
+    let email = this.quotaNotice.inputEmail
+    let validate = this.quotaService.isEmail(email)
+    let unique = this.existingEmail(email)
+    // Verify Email
+    if (validate && unique) {
+      // Add email
+      this.quotaNotice.listEmail.push(email)
+      this.quotaNotice.inputEmail = ''
+    }
+    else {
+      alert(
+        `${!!email ? email : 'Email is empty'} | ${validate} | ${unique}`
+      )
+    }
+  }
+  
+  removeNoticeEmail(index: number) {
+    // Notice email list
+    let list = this.quotaNotice.listEmail
+    // Remove data
+    this.quotaNotice.listEmail = list.filter(
+      (_, i) => i != index
+    )
+  }
+
+  addNoticeSMS(): void {
+    // Mobile number input value
+    let phone = this.quotaNotice.inputPhone
+    let validate = this.quotaService.isPhone(phone)
+    let unique = this.existingPhone(phone)
+    // Verify mobile number
+    if (validate && unique) {
+      // Add mobile number
+      this.quotaNotice.listPhone.push(phone)
+      this.quotaNotice.inputPhone = ''
+    }
+    else {
+      alert(
+        `${!!phone ? phone : 'Phone is empty'} | ${validate} | ${unique}`
+      )
+    }
+  }
+
+  removeNoticeSMS(index: number) {
+    // Notice phone number list
+    let list = this.quotaNotice.listPhone
+    // Remove data
+    this.quotaNotice.listPhone = list.filter(
+      (_, i) => i != index
+    )
+  }
+
+  selectQuotaType (type: number): void {
+    // Set quota
+    this.quota.type = type
+    this.setQuota(
+      this.quota.type,
+      this.quota.period
+    )
+  }
+
+  selectQuotaPeriod (period: number): void {
+    // Set quota
+    this.quota.period = period
+    this.setQuota(
+      this.quota.type,
+      this.quota.period
+    )
+  }
+
+  setQuota (type: number, period: number): void {
+    // Campaign duration
+    let { start, stop } = this.duration
+    // Quota limit
+    let { mobile, fbb } = this.quota
+    
+    console.log(type, period)
+    //
+    let check = [
+      [1,2,3].some(e => e == type),
+      [1,2].some(e => e == period)
+    ]
+    // Filter quota inspection type
+    if (check.every(e => !!e)) {
+      //
+      let range = period == 3 ? 'half-month' : 'full-month'
+      // 
+      this.quotaList = []
+      // 
+      let list = this.quotaService.setPeriod(
+        range, start, stop
+      )
+      // 
+      if (type == 1) {
+        this.quotaList.push(list)
+      }
+      console.log(this.quotaList)
+    }
+  }
+
+}
+
+<!-- Quota: Limit -->
+<p class="label">
+  Quota Separation
+</p>
+<div class="grid-layout slot-2">
+  <div
+    class="item"
+    *ngFor="let separate of options.quotaSeparate"
+    [ngClass]="{
+      'active': separate.value == quota.separate
+    }"
+    (click)="quota.separate = separate.value">
+    {{ separate.name }}
+  </div>
+</div>
+<div class="grid-layout" [ngClass]="{
+  'slot': quota.separate == 0,
+  'slot-2': quota.separate == 1
+}">
+  <div>
+    <p class="label">
+      Mobile Quota
+    </p>
+    <input
+      [(ngModel)]="quota.mobile"
+      placeholder="Mobile quota count">
+  </div>
+  <div
+    *ngIf="quota.separate == 1">
+    <p class="label">
+      FBB Quota
+    </p>
+    <input
+      [(ngModel)]="quota.fbb"
+      placeholder="FBB quota count">
+  </div>
+</div>
+
+<p> 
+  Type {{ quota.type }}, Period {{ quota.period }} <br/>
+</p>
+<ul>
+  <li>
+    if type = 1 && period = 0
+    <ul>
+      <li>show overall quota mobile/fibre</li>
+      <li>hide allocate list</li>
+    </ul>
+  </li>
+  <li>
+    if type = 1 && period = 1
+    <ul>
+      <li>hide overall quota mobile/fibre</li>
+      <li>show allocate list with action</li>
+    </ul>
+  </li>
+  <li>
+    if type = 2,3 && period = 0 
+    <ul>
+      <li>show overall quota mobile</li>
+      <li>show allocate list without action</li>
+    </ul>
+  </li>
+  <li>
+    if type = 2,3 && period = 1,2 
+    <ul>
+      <li>hide overall quota mobile</li>
+      <li>show allocate list with action</li>
+    </ul>
+  </li>
+</ul>

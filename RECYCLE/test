@@ -1,0 +1,62 @@
+<div class="template" [ngClass]="{
+  'active-menu': menu
+}">
+  <div class="top-bar centralize shadow">
+    <p>
+      <i 
+        class="fa-solid fa-2x cursor-pointer" 
+        [ngClass]="{
+          'fa-bars': !menu,
+          'fa-xmark': menu
+        }"
+        (click)="menu = !menu"
+        style="margin-left: .5em;"></i>
+    </p>
+    <p class="text center bold uppercase">
+      {{ appName }}
+    </p>
+  </div>
+  <div class="menu shadow">
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+    <p>{{ appName }}</p>
+  </div>
+  <div class="page-container">
+    <div class="page-container-curtain" (click)="menu = !menu"></div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

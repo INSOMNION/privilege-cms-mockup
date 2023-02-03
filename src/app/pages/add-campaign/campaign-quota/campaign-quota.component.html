@@ -1,0 +1,514 @@
+<!-- Main Component -->
+<div class="container">
+  <div class="text left">
+    <button
+      (click)="
+        goto('/dashboard/add-campaign/limitation')
+      "> Back
+    </button>
+  </div>
+  <h1 class="heading text center">
+    Quota Allocation
+  </h1>
+  <div class="campaign-quota">
+    <!-- Quota: Inspection Period -->
+    <p class="title text uppercase">
+      Inspect Type
+    </p>
+    <hr>
+    <div class="grid-layout slot-5">
+      <div
+        class="item"
+        *ngFor="let type of options.quota"
+        [ngClass]="{
+          'active': type.value == quota.type
+        }"
+        (click)="selectQuotaType(type.value)">
+        ({{type.value}}) {{ type.name }}
+      </div>
+    </div>
+    <div
+      *ngIf="
+        quota.type == 1 ||
+        quota.type == 2 ||
+        quota.type == 3 
+      ">
+      <p class="title text uppercase">
+        Inspect Period
+      </p>
+      <hr>
+      <div class="grid-layout slot-4">
+        <div
+          class="item"
+          *ngFor="let period of options.quotaPeriod"
+          [ngClass]="{
+            'active': period.value == quota.period
+          }"
+          (click)="
+            selectQuotaPeriod(period.value)
+          ">
+          ({{period.value}}) {{ period.name }}
+        </div>
+      </div>
+      <div
+        *ngIf="quota.period == 3">
+        <p class="label">
+          Days Count
+        </p>
+        <input type="number"
+          [(ngModel)]="quota.days"
+          placeholder="Quota validate days count">
+      </div>
+      <p class="title text uppercase">
+        Quota Split
+      </p>
+      <p class="text uppercase"
+        [ngStyle]="{
+          margin: '.5em 0'
+        }">
+        Mobile & Fibre
+      </p>
+      <hr>
+      <div class="grid-layout slot-2">
+        <div
+          class="item"
+          *ngFor="let split of options.quotaSplit"
+          [ngClass]="{
+            'active': quota.split == split.value
+          }"
+          (click)="
+            quota.split = split.value
+          ">
+          {{ split.name }}
+        </div>
+      </div>
+      <div class="grid-layout"
+        *ngIf="(
+          quota.type == 1 && (
+            quota.period == 0 ||
+            quota.period == 3
+          )
+        )"
+        [ngClass]="{
+          'slot-1': quota.split == 0,
+          'slot-2': quota.split == 1
+        }">
+        <div>
+          <p class="label">
+            Mobile Quota
+          </p>
+          <input type="number"
+            [(ngModel)]="quota.mobile"
+            placeholder="Mobile Quota">
+        </div>
+        <div *ngIf="quota.split == 1">
+          <p class="label">
+            Fibre Quota
+          </p>
+          <input type="number"
+            [(ngModel)]="quota.fibre"
+            placeholder="Fibre Quota">
+        </div>
+      </div>
+      <div 
+        *ngIf="
+          (quota.type != 1) || 
+          (quota.type == 1 &&
+            (
+              quota.period == 1 ||
+              quota.period == 2
+            )
+          )
+        ">
+        <p class="title text uppercase">
+          Quota List
+        </p>
+        <br />
+        <div form="list"
+          class="quota-list list-allocate">
+          <div *ngFor="
+            let item of allocate, index as i
+          ">
+            <div class="item"
+              [ngClass]="{
+                'mobile-only':
+                  quota.split == 0,
+                'mobile-fibre':
+                  quota.split == 1
+              }">
+              <div item="avatar">
+                <div class="image">
+                  <b> {{ i + 1 }} </b>
+                </div>
+              </div>
+              <div item="content">
+                <div>
+                  <p class="label">
+                    Name
+                  </p>
+                  {{ item.name }}
+                </div>
+              </div>
+              <div item="mobile">
+                <p class="label">
+                  Mobile
+                </p>
+                {{ item.mobile }}
+              </div>
+              <div item="fibre">
+                <p class="label">
+                  Fibre
+                </p>
+                {{ item.fibre }}
+              </div>
+              <div item="total">
+                <p class="label">
+                  Total
+                </p>
+                {{ item.mobile + item.fibre }}
+              </div>
+              <div item="action">
+                <button
+                  (click)="
+                    openAllocate(i)
+                  "> Allocate
+                </button>
+              </div>
+            </div>
+            <hr *ngIf="(i + 1) !== allocate.length" />
+          </div>
+        </div>
+        <p class="title text uppercase">
+          Summary
+        </p>
+        <hr>
+        <div class="grid-layout text center"
+          [ngClass]="{
+            'slot-2': quota.split == 0,
+            'slot-3': quota.split == 1
+          }">
+          <div>
+            <b class="text uppercase">
+              Mobile
+            </b>
+            <br/>
+            {{ mobileSummary() }} right(s)
+          </div>
+          <div *ngIf="quota.split == 1">
+            <b class="text uppercase">
+              Fibre
+            </b>
+            <br/>
+            {{ fibreSummary() }} right(s)
+          </div>
+          <div>
+            <b class="text uppercase">
+              Total
+            </b>
+            <br/>
+            {{ mobileSummary() + fibreSummary() }} right(s)
+          </div>
+        </div>
+      </div>
+      <p class="title text uppercase">
+        Email Notification
+      </p>
+      <hr>
+      <div class="grid-layout slot-2">
+        <div
+          class="item"
+          *ngFor="let item of options.quotaNotice"
+          [ngClass]="{
+            'active': item.value == notice.email
+          }"
+          (click)="
+            notice.email = item.value
+          ">
+          {{ item.name }}
+        </div>
+      </div>
+      <div
+        *ngIf="notice.email == 1">
+        <p class="label">
+          Email
+        </p>
+        <div class="input-action">
+          <input type="text"
+            [(ngModel)]="notice.inputEmail"
+            placeholder="Notification Email">
+          <button
+            (click)="
+              addNoticeEmail()
+            "> Add
+          </button>
+        </div>
+        <div *ngIf="notice.listEmail.length > 0">
+          <br>
+          <div class="tag-list notice">
+            <div 
+              class="item input-action"
+              *ngFor="
+                let email of notice.listEmail, index as i
+              ">
+              <span class="content">
+                {{ email }}
+              </span>
+              <span class="remove"
+                (click)="
+                  removeNoticeEmail(i)
+                "> X </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="title text uppercase">
+        SMS Notification
+      </p>
+      <hr>
+      <div class="grid-layout slot-2">
+        <div
+          class="item"
+          *ngFor="let item of options.quotaNotice"
+          [ngClass]="{
+            'active': item.value == notice.sms
+          }"
+          (click)="
+            notice.sms = item.value
+          ">
+          {{ item.name }}
+        </div>
+      </div>
+      <div
+        *ngIf="notice.sms == 1">
+        <div class="grid-layout slot-2">
+          <div>
+            <p class="label">
+              Phone Number
+            </p>
+            <div class="input-action">
+              <input type="text"
+                [(ngModel)]="notice.inputPhone"
+                placeholder="Notification Phone Number">
+              <button
+                (click)="
+                  addNoticeSMS()
+                "> Add
+              </button>
+            </div>
+          </div>
+          <div>
+            <p class="label">
+              Quota Remaining Notify
+            </p>
+            <div class="input-action">
+              <input type="number"
+                [(ngModel)]="notice.smsRemain"
+                (keyup)="changeRemainSMS(
+                  notice.smsRatio,
+                  notice.smsRemain
+                )"
+                placeholder="Remaining Quota">
+              <div>
+                <button 
+                  (click)="changeRemainSMS(
+                    0, notice.smsRemain
+                  )"
+                  [ngClass]="{
+                    'active': notice.smsRatio == 0
+                  }"> Quota
+                </button>
+                <button
+                  (click)="changeRemainSMS(
+                    1, notice.smsRemain
+                  )"
+                  [ngClass]="{
+                    'active': notice.smsRatio == 1
+                  }"> Percent
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="notice.listPhone.length > 0">
+          <br>
+          <div class="tag-list notice">
+            <div 
+              class="item input-action"
+              *ngFor="
+                let phone of notice.listPhone, index as i
+              ">
+              <span class="content">
+                {{ phone }}
+              </span>
+              <span class="remove" (click)="
+                removeNoticeSMS(i)
+              "> X </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br end="campaign-quota">
+  </div>
+  <div class="container-footer">
+    <button
+      (click)="
+        goto('/dashboard/add-campaign/limitation')
+      "> Back
+    </button>
+    <button
+      (click)="
+        goto('/dashboard/add-campaign/response')
+      ">{{ quota.type == 0
+          ? 'Skip'
+          : 'Next'
+        }}
+    </button>
+  </div>
+</div>
+<!-- Allocate Modal -->
+<app-modal [display]="manage.modal">
+  <div body class="dialog">
+    <div dialog="header">
+      <p class="title text uppercase">
+        Allocate Quota 
+      </p>
+      <hr />
+      <h5 class="sub-title">
+        {{ manage.title }} ({{ manage.id }})
+      </h5>
+      <div 
+        *ngIf="existing(manage.id)">
+        <div class="grid-layout" [ngClass]="{
+          'slot-1': quota.split == 0,
+          'slot-2': quota.split == 1
+        }">
+          <div>
+            <p class="label">
+              Mobile Quota {{
+                quota.period == 1 ||
+                quota.period == 2
+                  ? '(Auto Average)' : ''
+              }} 
+            </p>
+            <input type="number"
+              [(ngModel)]="
+                allocate[manage.id].mobile
+              "
+              (keyup)="averagePeriodQuota(
+                manage.id, 'mobile'
+              )"
+              placeholder="Mobile Quota">
+          </div>
+          <div *ngIf="quota.split == 1">
+            <p class="label">
+              Fibre Quota {{
+                quota.period == 1 ||
+                quota.period == 2
+                  ? '(Auto Average)' : ''
+              }} 
+            </p>
+            <input type="number"
+              [(ngModel)]="
+                allocate[manage.id].fibre
+              "
+              (keyup)="averagePeriodQuota(
+                manage.id, 'fibre'
+              )"
+              placeholder="Fibre Quota">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div dialog="content"
+      *ngIf="existing(manage.id)">
+      <div form="list"
+        class="quota-list list-manage"
+        *ngIf="
+          quota.period == 1 ||
+          quota.period == 2
+        ">
+        <div class="quota-list"
+          *ngFor="
+            let item of period[manage.id]; index as i
+          ">
+          <div class="item no-action"
+            [ngClass]="{
+              'mobile-only':
+                quota.split == 0,
+              'mobile-fibre':
+                quota.split == 1
+            }">
+            <div item="avatar">
+              <div class="image">
+                <b> {{ i + 1 }} </b>
+              </div>
+            </div>
+            <div item="content"
+              class="text center">
+              <div>
+                <p class="label">
+                  start
+                </p>
+                {{ item.start | date: 'M/d/yy, HH:mm' }}
+              </div>
+              <div>
+                <p class="label">
+                  stop
+                </p>
+                {{ item.stop | date: 'M/d/yy, HH:mm' }}
+              </div>
+            </div>
+            <div item="mobile">
+              <p class="label">
+                Mobile
+              </p>
+              <input type="number"
+                [(ngModel)]="
+                  mobile[manage.id][i]
+                "
+                (keyup)="
+                  changePeriodQuota(
+                    manage.id, 'mobile'
+                  )
+                "
+                placeholder="Mobile Quota"
+              />
+            </div>
+            <div item="fibre">
+              <p class="label">
+                Fibre
+              </p>
+              <input type="number"
+                [(ngModel)]="
+                  fibre[manage.id][i]
+                "
+                (keyup)="
+                  changePeriodQuota(
+                    manage.id, 'fibre'
+                  )
+                "
+                placeholder="Fibre Quota"
+              />
+            </div>
+          </div>
+          <hr *ngIf="
+            (i + 1) !== period[manage.id].length"
+          />
+        </div>
+      </div>
+      <div *ngIf="!existing(manage.id)">
+        Quota Not Found
+      </div>
+    </div>
+    <div dialog="footer">
+      <div class="text center">
+        <button
+          (click)="
+            manage.modal = false
+          "> save
+        </button>
+      </div>
+    </div>
+  </div>
+</app-modal>

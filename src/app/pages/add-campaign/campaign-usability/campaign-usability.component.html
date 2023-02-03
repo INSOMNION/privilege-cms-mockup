@@ -1,0 +1,241 @@
+<div class="container">
+  <h1 class="heading text center">
+    Usability
+  </h1>
+  <div class="campaign-display">
+    <p class="title text uppercase">
+      Display Channels
+    </p>
+    <hr>
+    <p class="">
+      <span class="label" for="campaign-brand">
+        Cooperate Brand
+      </span>
+      <input
+        id="campaign-brand"
+        type="text"
+        placeholder="Select Brand"
+        (click)="selectBrand()">
+    </p>
+    <p class="label">
+      Display Mobile App
+    </p>
+    <div class="grid-layout slot-2">
+      <div 
+        class="item"
+        *ngFor="let item of display.mobile"
+        [ngClass]="{
+          'active': item.value == brandDisplay.mobile
+        }"
+        (click)="
+          brandDisplay.mobile = item.value
+        ">
+        {{ item.name }}
+      </div>
+    </div>
+    <p class="label">
+      Display Logo (Thank You Page)
+    </p>
+    <div class="grid-layout slot-2">
+      <div 
+        class="item"
+        *ngFor="let item of display.thank"
+        [ngClass]="{
+          'active': item.value == brandDisplay.thank
+        }"
+        (click)="
+          brandDisplay.thank = item.value
+        ">
+        {{ item.name }}
+      </div>
+    </div>
+    <br end="campaign-display">
+  </div>
+  <div class="campaign-choice">
+    <p class="title text uppercase">
+      Campaign Choices
+    </p>
+    <hr>
+    <div class="choice-list">
+      <div
+        class="item"
+        *ngFor="let item of choices">
+        <div slot="image">
+          <img 
+            [src]="item.image"
+            width="100px"
+            height="100px"
+            (click)="previewQRcode(item)">
+        </div>
+        <div slot="content">
+          <b> {{ item.value == 'none'
+            ? 'Default'
+            : 'Choice ' + item.value
+          }}</b>
+          <br> {{ item.ussd }}
+          <br> {{ item.link }}
+        </div>
+        <div slot="action">
+          <button
+            class="edit"
+            (click)="updatingChoice(item)">
+            Edit
+          </button>
+          <button 
+            class="remove"
+            (click)="removeChoice(item.id)"
+            [disabled]="choices.length == 1">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+    <p class="text center">
+      <button (click)="addingChoice()">
+        Add Campaign Choice
+      </button>
+    </p>
+    <br end="campaign-choice">
+  </div>
+  <div class="container-footer">
+    <button (click)="
+      goto('/dashboard/add-campaign/general')
+    ">
+      Back
+    </button>
+    <button (click)="
+      goto('/dashboard/add-campaign/quota')
+    ">
+      Next
+    </button>
+  </div>
+</div>
+
+<app-modal [display]="modal.display">
+  <!-- Search And Select Brand -->
+  <div body 
+    class="modal"
+    *ngIf="
+      modal.type == 'select-brand'
+    ">
+    <h3>
+      Select Cooperate Brand
+    </h3>
+    <hr>
+    <p>
+      <button
+        (click)="alert.display = true">
+        alert
+      </button>
+      <button
+        (click)="modal.display = false">
+        close
+      </button>
+    </p>
+  </div>
+  <!-- Add and Update Choice -->
+  <div body 
+    class="modal add-choice text center"
+    *ngIf="
+      modal.type == 'add-choice' ||
+      modal.type == 'update-choice'
+    ">
+    <h3>
+      Select
+    </h3>
+    <hr>
+    <div class="choice-input-info">
+      <b>Choice Pattern</b>
+      <ul>
+        <li>
+          Input <span class="highlight">none</span> campaign default.
+        </li>
+        <li>
+          Input <span class="highlight">0-9</span> to define campaign choice.
+        </li>
+        <li>
+          Cannot input existing campaign choice value.
+        </li>
+      </ul>
+    </div>
+    <p>
+      <input 
+        type="text"
+        [(ngModel)]="choice"
+        placeholder="Campaign choice">
+    </p>
+    <p>
+      <button
+        *ngIf="modal.type == 'add-choice'"
+        [disabled]="!validateChoice(choice)"
+        (click)="addChoice(choice)">
+        Add
+      </button>
+      <button
+        *ngIf="modal.type == 'update-choice'"
+        [disabled]="!validateChoice(choice)"
+        (click)="updateChoice(
+          updateId,
+          choice
+        )">
+        Edit
+      </button>
+      <button
+        (click)="modal.display = false">
+        Cancel
+      </button>
+    </p>
+  </div>
+  <!-- Preview Choice -->
+  <div body 
+    class="modal preview-choice text center"
+    *ngIf="modal.type == 'preview-choice'" >
+    <h3>
+      {{ preview.value == 'none'
+        ? 'Default'
+        : 'Choice ' + preview.value
+      }}
+    </h3>
+    <hr>
+    <p>
+      {{ preview.ussd }}
+    </p>
+    <p>
+      <img 
+        class="qr-code preview"
+        [src]="preview.image"
+        [alt]="preview.imageName">
+    </p>
+    <p>{{ preview.imageName }}</p>
+    <p>
+      <button 
+        (click)="downloadQRcode(
+          preview.imageName,
+          preview.image
+        )">
+        Download
+      </button>
+      <button
+        (click)="modal.display = false">
+        Close
+      </button>
+    </p>
+  </div>
+</app-modal>
+<app-modal [display]="alert.display">
+  <div body
+    class="modal">
+    <h3>
+      Alert
+    </h3>
+    <p>
+      Alert Message
+    </p>
+    <p>
+      <button
+        (click)="alert.display = false">
+        close
+      </button>
+    </p>
+  </div>
+</app-modal>

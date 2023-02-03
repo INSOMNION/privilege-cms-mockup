@@ -1,0 +1,32 @@
+
+  /**
+   * Resize image
+   * @param {string} base64 - Base64 image 
+   * @param {number} width - New width
+   * @param {number} height - New height
+   * @returns {string} Base64 image
+   */
+  resize (
+    base64: string,
+    width: number,
+    height: number
+  ): string {
+    var image = document.createElement('img');
+    image.setAttribute("src", base64);
+    image.onload = () => {
+      // Create element
+      var canvas = document.createElement('canvas')
+      let context = canvas.getContext("2d")
+      // Resize
+      canvas.width = width
+      canvas.height = height
+      // Draw resize image
+      context?.drawImage(
+        image, 0, 0, width, height
+      )
+      // Set image source
+      image.setAttribute("src", canvas.toDataURL())
+    }
+    // Get new source
+    return image.getAttribute('src') || ''
+  } 

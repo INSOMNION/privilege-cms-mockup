@@ -1,0 +1,41 @@
+
+.pagination-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  align-self: center;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.pagination {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+.pagination a {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  display: inline-block;
+  line-height: 2em;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.pagination a.active {
+  font-weight: bold;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
+

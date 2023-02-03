@@ -1,0 +1,9 @@
+.list {
+  display: grid;
+  gap: 1em;
+}
+
+.item {
+  background: #fafafa;
+  padding: 1em;
+}

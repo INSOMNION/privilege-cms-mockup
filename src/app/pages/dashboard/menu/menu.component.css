@@ -1,0 +1,8 @@
+.menu-item.active {
+  color: #A3CE18;
+}
+
+.menu-item {
+  padding: .5em;
+  cursor: pointer;
+}

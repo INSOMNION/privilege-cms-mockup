@@ -1,0 +1,91 @@
+@import url(../add-campaign.component.css);
+
+.dialog.criteria {
+  width: 60%;
+  max-height: 90vh;
+  padding: 1em;
+}
+
+.criteria-list {
+  display: grid;
+  gap: 1px;
+}
+
+.criteria-list > * {
+  margin: 0;
+  padding: .5em 0;
+  background: #F0F0F0;
+}
+
+.criteria-list .item {
+  display: grid;
+  gap: 1em;
+  align-items: center;
+  background-color: white;
+}
+
+.criteria-list.option .item{
+  grid-template-columns: max-content max-content auto;
+  grid-template-areas: 'avatar control content';
+}
+
+.criteria-list.main .item {
+  grid-template-columns: max-content auto max-content;
+  grid-template-areas: 'avatar content control';
+}
+
+.criteria-list .item [item=avatar] {
+  grid-area: avatar;
+}
+
+.item [item=avatar] .image {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: #F0F0F0;
+}
+
+.criteria-list .item [item=content] {
+  grid-area: content;
+  word-break: break-all;
+}
+
+.criteria-list .item [item=control] {
+  grid-area: control;
+}
+
+.criteria-list .item button {
+  padding: .5em 1em;
+}
+
+@media screen and (max-width: 640px) {
+  
+  .dialog.criteria {
+    width: calc(100% - 2em);
+    max-height: calc(100vh - 2em);
+  }
+
+  .criteria-list.option .item{
+    grid-template-columns: max-content auto;
+    grid-template-rows: max-content auto;
+    grid-template-areas:
+      'avatar control'
+      'avatar content'
+    ;
+  }
+  .criteria-list.main .item {
+    grid-template-columns: max-content auto;
+    grid-template-rows: max-content auto;
+    grid-template-areas:
+      'avatar content'
+      'control control'
+    ;
+  }
+  .criteria-list.main .item [item=control] {
+    text-align: right;
+  }
+}

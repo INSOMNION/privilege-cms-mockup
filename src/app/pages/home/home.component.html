@@ -1,0 +1,9 @@
+<div class="container">
+  <H1>{{ page.title }}</H1>
+  <div>
+    <a href="#" [routerLink]="'/dashboard'">Dashboard</a>
+    <a href="#" [routerLink]="'/home/list'">List</a>
+    <a href="#" [routerLink]="'/home/calendar'">Calendar</a>
+  </div>
+  <router-outlet></router-outlet>
+</div>

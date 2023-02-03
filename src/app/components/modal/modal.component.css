@@ -1,0 +1,106 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+[modal="component"] {
+  letter-spacing: .05em;
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fade-in {
+  animation-name: fade-in;
+  animation-duration: 0.3s;
+}
+
+.fade-out {
+  animation-name: fade-out;
+  animation-duration: 0.3s;
+}
+
+[modal="container"] {
+  display: grid;
+  height: 100%;
+  align-items: center;
+}
+
+[modal="content"] {
+  transition: width 1s;
+  background-color: #fefefe;
+  margin: 0 auto;
+  box-shadow: 0 1em 2em 0 rgba(0, 0, 0, 0.1);
+  max-height: 95vh;
+}
+
+[modal="content"].modal-normal {
+  width: 70%;
+}
+
+[modal="content"].modal-alert {
+  width: 30%;
+}
+
+.modal-loading {
+  background-color: transparent;
+  box-shadow: none;
+  text-align: center;
+  color: white;
+}
+
+@media screen and (max-width: 1280px) {
+
+  [modal="content"].modal-alert {
+    width: 40%;
+  }
+
+  [modal="content"].modal-normal {
+    width: 80%;
+    max-height: 95vh;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+  [modal="content"].modal-alert {
+    width: 50%;
+  }
+
+  [modal="content"].modal-normal {
+    width: 85%;
+    max-height: 95vh;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+
+  [modal="content"].modal-alert {
+    width: 80%;
+  }
+
+  [modal="content"].modal-normal {
+    width: 90%;
+    max-height: 95vh;
+  }
+}

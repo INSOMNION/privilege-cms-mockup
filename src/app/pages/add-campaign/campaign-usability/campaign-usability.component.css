@@ -1,0 +1,127 @@
+.add-campaign-usability {
+  --qr-code-size: 100px;
+  --qr-code-preview-size: 300px;
+}
+
+.qr-code {
+  width: var(--qr-code-size);
+  height: var(--qr-code-size);
+  background-color: white;
+  background-position: center;
+  background-size: contain;
+}
+
+.qr-code.preview {
+  width: 200px;
+  height: 200px;
+}
+
+.choice-input {
+  display: grid;
+  grid-template-columns: auto max-content;
+  gap: 1em;
+  text-align: center;
+}
+
+.choice-list {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1em;
+  overflow: hidden;
+}
+
+.choice-list .item {
+  display: grid;
+  grid-template-columns: max-content auto auto;
+  grid-template-rows: auto;
+  grid-template-areas: 'image content action';
+  align-items: center;
+  gap: 1em;
+  background: #F7F7F9;
+  padding: 1em;
+}
+
+.item [slot=image] {
+  grid-area: image;
+  display: grid;
+  justify-content: center;
+}
+
+.item [slot=content] {
+  grid-area: content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item [slot=action] {
+  grid-area: action;
+  text-align: right;
+}
+
+.item button {
+  padding: .5em 1em;
+}
+
+.modal {
+  margin: 0 auto;
+  padding: 1em;
+  background: white;
+}
+
+.modal.add-choice {
+  width: 40%;
+}
+
+.modal.preview-choice {
+  width: fit-content;
+}
+
+.modal p {
+  margin-bottom: 0;
+}
+
+.choice-input-info {
+  text-align: left;
+}
+
+.choice-input-info ul {
+  margin: .5em 0;
+}
+
+.choice-input-info ul li {
+  margin: .5em 0;
+}
+
+.choice-input-info ul .highlight {
+  padding: 0 .1em;
+  background: #F7F7F9;
+  font-size: calc(1em - .1em);
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .modal.add-choice {
+    width: 90%;
+  }
+  .choice-list .item {
+    grid-template-columns: var(--qr-code-size) auto;
+    grid-template-areas: 
+      'image content'
+      'image content'
+      'action action'
+    ;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .choice-list .item {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      'image'
+      'content'
+      'action'
+    ;
+  }
+  
+}

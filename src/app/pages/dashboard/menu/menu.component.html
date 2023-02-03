@@ -1,0 +1,8 @@
+<div
+  class="menu-item"
+  *ngFor="let item of menu"
+  (click)="goto(item.path)" [ngClass]="{
+    'active': item.path == current
+  }">
+  {{ item.name }}
+</div>

@@ -1,0 +1,184 @@
+<div class="container">
+  <div class="text left">
+    <button
+      (click)="
+        goto('/dashboard/add-campaign/usability')
+      "> Back
+    </button>
+  </div>
+  <h1 class="heading text center">
+    Limitation
+  </h1>
+  <div class="campaign-criteria">
+    <p class="title text uppercase">
+      criteria
+    </p>
+    <hr>
+    <div class="criteria-list main no-select">
+      <div class="item added"
+        *ngFor="let item of criteria.added, index as i">
+        <div item="avatar">
+          <div class="image">
+            <b> {{ i + 1 }} </b>
+          </div>
+        </div>
+        <div item="content">
+          {{ item.id }} <br/>
+          {{ item.name }}
+        </div>
+        <div item="control">
+          <button
+            (click)="deleteCriteria(
+              item.id,
+              item.name
+            )">
+            Remove
+          </button>
+        </div>          
+      </div>
+      <p
+        class="text center border-rounded"
+        [ngStyle]="{
+          'padding': '.5em 0'
+        }"
+        *ngIf="criteria.added.length == 0">
+        Click <b>Add Criteria</b> for add campaign criteria.
+      </p>
+    </div>
+    <p class="text center">
+      <button
+        (click)="openCriteria()">
+        Add Criteria
+      </button>
+    </p>
+    <br end="campaign-criteria">
+  </div>
+  <div class="campaign-receive">
+    <p class="text title uppercase">
+      Receive Limit
+    </p>
+    <hr>
+    <br end="campaign-receive">
+  </div>
+  <br>
+  <div class="campaign-voucher">
+    <p class="text title uppercase">
+      Voucher
+    </p>
+    <hr>
+    <br end="campaign-voucher">
+  </div>
+  <div class="container-footer">
+    <button (click)="
+      goto('/dashboard/add-campaign/usability')
+    ">
+      Back
+    </button>
+    <button (click)="
+      goto('/dashboard/add-campaign/quota')
+    ">
+      Next
+    </button>
+  </div>
+</div>
+<!-- Criteria Modal -->
+<app-modal [display]="modal.display">
+  <div body
+    class="dialog criteria"
+    *ngIf="modal.type == 'criteria'">
+    <div dialog="header">
+      <h3 class="heading text center">
+        Filter Criteria
+      </h3>
+      <br>
+      <div class="input-action">
+        <input
+          [(ngModel)]="criteria.filter.text"
+          placeholder="Seach Criteria ID or Name">
+        <button
+          (click)="filterCriteria(
+            criteria.filter.text, 0, 10
+          )"> Search
+        </button>
+      </div>
+      <p class="text center"
+        [ngStyle]="{
+          'margin': '.5em 0',
+          'font-size': '.85em'
+        }">
+        Found <b>{{ criteria.filter.total }}</b> item(s)
+      </p>
+    </div>
+    <div dialog="content">
+      <div class="criteria-list option no-select">
+        <p 
+          class="text center"
+          *ngIf="criteria.filter.data.length == 0">
+          Criteria Not Found
+        </p>
+        <div 
+          class="item option"
+          *ngFor="let item of criteria.filter.data"
+          [ngClass]="{
+            'active':
+              criteria.isAdding(item.id) ||
+              criteria.isAdded(item.id),
+            'adding': 
+              criteria.isAdding(item.id),
+            'added':
+              criteria.isAdded(item.id)
+          }">
+          <div item="avatar">
+            <div class="image"
+              (click)="addCriteria(
+                item.id,
+                item.name
+              )"
+              [attr.disabled]="
+                criteria.isAdded(item.id)
+              ">
+              <span>
+                {{
+                  criteria.isAdded(item.id)
+                    ? 'x'
+                    : criteria.isAdding(item.id)
+                      ? '-'
+                      : '+'
+                }}
+              </span>
+            </div>
+          </div>
+          <div item="control">
+            {{ item.id }}
+          </div>
+          <div item="content">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div dialog="footer">
+      <app-page-navigator
+        [active]="criteria.filter.page"
+        [limit]="10"
+        [total]="criteria.filter.total"
+        (onChange)="pageCriteria($event)">
+      </app-page-navigator>
+      <div class="text center"
+        [ngStyle]="{
+          'margin-top': '.5em'
+        }">
+        <button
+          (click)="
+            saveCriteria(criteria.adding)
+          "> Save {{ criteria.adding.length }} item(s)
+        </button>
+        <button
+          (click)="
+            modal.display = false
+          "> Close
+        </button>
+      </div>
+    </div>
+  </div>
+</app-modal>

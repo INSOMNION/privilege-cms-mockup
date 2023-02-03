@@ -1,0 +1,144 @@
+@import url(../add-campaign.component.css);
+
+.tag-list.notice .item {
+  background-color: #f1f4cc;
+  text-align: left;
+}
+
+.tag-list.notice .input-action {
+  gap: .5em;
+}
+
+.tag-list.notice .item .content{
+  word-break: break-all;
+}
+
+.tag-list.notice .item .remove {
+  cursor: pointer;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 1em;
+  background: white;
+  color: red;
+  line-height: 1.5em;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.input-action {
+  display: grid;
+  grid-template-columns: auto max-content;
+  gap: 1em;
+}
+
+.quota-list .item {
+  display: grid;
+  gap: 1em;
+  align-items: center;
+  background-color: white;
+}
+
+.item.mobile-only {
+  grid-template-columns: max-content auto 40% max-content;
+  grid-template-areas: 'avatar content mobile action';
+}
+.item.mobile-only.no-action {
+  grid-template-columns: max-content auto 40%;
+  grid-template-areas: 'avatar content mobile';
+}
+.item.no-action [item=action],
+.item.mobile-only [item=fibre] {
+  display: none;
+}
+.item.mobile-fibre {
+  grid-template-columns: max-content auto repeat(2, 20%) max-content;
+  grid-template-areas: 'avatar content mobile fibre action';
+}
+.item.mobile-fibre.no-action {
+  grid-template-columns: max-content auto repeat(2, 20%);
+  grid-template-areas: 'avatar content mobile fibre';
+}
+
+.list-allocate .item.mobile-only {
+  grid-template-columns: max-content auto repeat(2, 22.5%) max-content;
+  grid-template-areas: 'avatar content mobile total action';
+}
+.list-allocate .item.mobile-only.no-action {
+  grid-template-columns: max-content auto repeat(2, 22.5%);
+  grid-template-areas: 'avatar content mobile total';
+}
+
+.list-allocate .item.mobile-fibre {
+  grid-template-columns: max-content auto repeat(3, 15%) max-content;
+  grid-template-areas: 'avatar content mobile fibre total action';
+}
+.list-allocate  .item.mobile-fibre.no-action {
+  grid-template-columns: max-content auto repeat(3, 15%);
+  grid-template-areas: 'avatar content mobile fibre total';
+}
+
+.list-manage [item=content] {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+}
+
+.item ~ hr {
+  margin: .5em 0;
+}
+.item.header {
+  text-align: center;
+}
+.item [item=avatar] {
+  grid-area: avatar;
+}
+.item [item=avatar] .image {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: #F0F0F0;
+}
+.item:hover [item=avatar] .image {
+  color: white;
+  background-color: var(--color-primary);
+}
+.item [item=avatar] span {
+  font-size: .85em;
+}
+.item [item=content] {
+  grid-area: content;
+  word-break: break-all;
+}
+.item [item=mobile] {
+  grid-area: mobile;
+}
+.item [item=fibre] {
+  grid-area: fibre;
+}
+.item [item=total] {
+  grid-area: total;
+}
+.item [item=mobile],
+.item [item=fibre],
+.item [item=total] {
+  text-align: center;
+}
+.item [item=action] {
+  grid-area: action;
+}
+
+.dialog { gap: 1em; }
+.dialog .title { margin: 0; }
+.dialog .sub-title { color: var(--color-primary); }
+.dialog .label {
+  font-size: .85em;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: .5em 0;
+}
+.dialog hr { margin: .5em 0; }
+.dialog .grid-layout .item{ padding: .5em 1em; }

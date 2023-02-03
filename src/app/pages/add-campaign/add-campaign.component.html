@@ -1,0 +1,27 @@
+<div class="container shadow">
+  <div class="heading">
+    <h1 class="title">Add Campaign</h1>
+    <h3 class="sub title">Choose Campaign Type</h3>
+    <hr>
+  </div>
+  <div class="grid-container service-list">
+    <div class="item shadow" (click)="goto(navigator['general'].path)">
+      <h2>Privilege</h2>
+      <hr class="line">
+    </div>
+    <div class="item shadow" (click)="goto(navigator['general'].path)">
+      <h2>Point</h2>
+      <hr class="line">
+    </div>
+    <div class="item shadow" (click)="goto(navigator['general'].path)">
+      <h2>Random Messagea</h2>
+      <hr class="line">
+    </div>
+  </div>
+  {{ date }}
+  <app-calendar
+    lang="TH"
+    [value]="date"
+    (onSelect)="selectDate($event)"
+  ></app-calendar>
+</div>

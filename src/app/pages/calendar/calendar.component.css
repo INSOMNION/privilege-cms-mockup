@@ -1,0 +1,93 @@
+
+.calendar {
+  --color-sunday: rgb(246,82,71);
+  --color-monday: rgb(242,187,1);
+  --color-tueday: rgb(242,121,162);
+  --color-wednesday: rgb(163,194,102);
+  --color-thursday: rgb(239,115,31);
+  --color-friday: rgb(156,214,242);
+  --color-saturday: rgb(216,156,242);
+}
+
+.calendar-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.calendar {
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1.5em;
+  grid-template-areas: 'sun mon tue wed thur fri sat';
+}
+
+.calendar .week {
+  display: grid;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar .day {
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+}
+
+.calendar .day.today {
+  background-color: rgb(230, 255, 193);
+}
+
+.calendar .day.active {
+  font-weight: bold;
+  background-color: greenyellow;
+}
+
+.calendar .day.disabled {
+  cursor: not-allowed;
+  color: white;
+  background-color: rgb(171, 171, 171);
+}
+
+.calendar [day=0] {
+  grid-area: sun;
+}
+
+.calendar [day=1] {
+  grid-area: mon;
+}
+
+.calendar [day=2] {
+  grid-area: tue;
+}
+
+.calendar [day=3] {
+  grid-area: wed;
+}
+
+.calendar [day=4] {
+  grid-area: thur;
+}
+
+.calendar [day=5] {
+  grid-area: fri;
+}
+
+.calendar [day=6] {
+  grid-area: sat;
+}
+
+@media screen and (max-width: 640px) {
+
+  .calendar {
+    gap: .25em
+  }
+
+  .calendar .day {
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+  }
+}

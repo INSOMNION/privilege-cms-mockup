@@ -1,0 +1,110 @@
+<div class="container">
+  <h1> {{ title }} </h1>
+  <p class="action">
+    <button (click)="add();">
+      Add
+    </button>
+    <button (click)="remove();">
+      Remove
+    </button>
+    <button (click)="all();">
+      All
+    </button>
+    <button (click)="modal.display = !modal.display">
+      {{ modal.display ? 'close' : 'open' }} modal
+    </button>
+  </p>
+  <div class="grid-container" style="grid-template-columns: 100%;">
+    <div class="list privilege-info" [ngClass]="template">
+      <div
+        *ngFor="let item of data"
+        class="item"
+        [ngClass]="{
+          'active': item.check
+        }">
+        <div col-1>
+          <div 
+            class="image"
+            [ngStyle]="{
+              'cursor': 'pointer',
+              'background-image': imageURL(item.logo)
+            }"
+            (click)="
+              item.check = !item.check
+            ">
+            <div
+              class="image cover-image"
+              [ngStyle]="{
+                'background-color': 'rgba(178,210,52,.75)',
+                'color': 'white'
+              }">
+              <i class="fa fa-plus icon-adding"></i>
+              <i class="fa fa-check icon-added"></i>
+            </div>
+          </div>
+        </div>
+        <div col-2>
+          <b>{{ item.id }}</b> <br>
+          {{ item.ussd }} <br>
+          {{ item.logo }}
+        </div>
+        <div col-3>
+          <i class="fa fa-calendar-check"></i>
+          {{ item.start }}
+        </div>
+        <div col-4>
+          <i class="fa fa-calendar-xmark"></i>
+          {{ item.stop }}
+        </div>
+        <div col-5>
+          <button class="info" (click)="openInfo(item)"> 
+            view
+          </button>
+          <button 
+            (click)="
+              item.check = !item.check
+            "
+            [ngClass]="{
+              'remove': item.check,
+              'add': !item.check
+            }"> 
+            {{ item.check ? 'remove' : 'add' }}
+          </button>
+          
+        </div>
+      </div>
+    </div>
+    <app-page-navigator
+      class="page-navigator"
+      [total]="100"
+      [limit]="10"
+      [active]="2"
+      (onInit)="changePage($event)"
+      (onChange)="changePage($event)">
+      <i active-icon class="fa fa-user"></i>
+    </app-page-navigator>
+  </div>
+</div>
+<app-modal 
+  class="modal"
+  [title]="modal.title"
+  [display]="modal.display"
+  [loading]="modal.loading"
+>
+  <div body class="preview-body">
+    <div header>
+      <h1>header</h1>
+    </div>
+    <div body>
+      <div *ngFor="let item of mock.slice(0, 50)">
+        {{ item | json }}
+      </div>
+    </div>
+    <div footer>
+      <button (click)="modal.type = 'normal'"> normal </button>
+      <button (click)="modal.type = 'alert'"> alert </button>
+      <button (click)="modal.loading = !modal.loading"> load </button>
+      <button (click)="modal.display = !modal.display"> close </button>
+    </div>
+  </div>
+</app-modal>

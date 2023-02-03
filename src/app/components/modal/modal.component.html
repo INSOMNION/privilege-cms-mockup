@@ -1,0 +1,40 @@
+<div
+  modal="component"
+  *ngIf="display"
+  [ngStyle]="{
+    'display': display ? 'block' : 'none'
+  }"
+  [class]="
+    display ? 'fade-in' : 'fade-out'
+  "
+  (click)="
+    onClickBackdrop($event)
+  ">
+  <div
+    modal="container"
+    [class]="
+      display ? 'fade-in' : 'fade-out'
+    ">
+    <div class="modal-loading"
+      *ngIf="
+        type === 'loading'
+      ">
+      <div class="fa-4x">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+      </div>
+      <h3> LOADING ... </h3>
+    </div>
+    <div modal="content"
+      *ngIf="
+        type === 'alert' ||
+        type === 'normal'
+      "
+      [class]="class"
+      [ngClass]="{
+        'modal-alert': type === 'alert',
+        'modal-normal': type === 'normal'
+      }">
+      <ng-content select="[container]"></ng-content>
+    </div>
+  </div>
+</div>

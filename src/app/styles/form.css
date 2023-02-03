@@ -1,0 +1,269 @@
+@import './color.css';
+
+:root {
+  --border-radius: .5em;
+  --padding-action: .75em 1em;
+}
+
+.heading {
+  color: var(--color-heading);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: var(--color-secondary);
+  margin-bottom: 0;
+}
+
+* + .sub-title {
+  font-size: .9em;
+  color: grey;
+  margin-top: 0;
+}
+
+.border-rounded {
+  border-radius: var(--border-radius);
+}
+
+hr {
+  margin: 1em 0;
+  border-top: 1px solid rgba(60, 64, 67, 30%);
+}
+
+hr.divider {
+  margin: 1.5em 0;
+}
+
+hr.small-space {
+  border: 0;
+  margin: .5em 0;
+}
+
+hr.medium-space {
+  border: 0;
+  margin: 1em 0;
+}
+
+.label {
+  margin: 1.5em 0 .75em 0;
+}
+
+input {
+  font-size: 1em;
+  border: 1px solid gray;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+p.label + input {
+  margin: 0;
+}
+
+.label + input {
+  margin: .5em 0 0 0;
+}
+
+input {
+  width: calc(calc(100% - 1em) - 2px);
+  padding: .5em;
+  text-align: center;
+  border-radius: var(--border-radius);
+}
+
+.prefix-input {
+  display: grid;
+  grid-template-columns: max-content auto;  
+  align-items: center;
+}
+
+.prefix-input .prefix {
+  padding: .5em;
+}
+
+button {
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.5s;
+  border: 0;
+  padding: var(--padding-action);
+  margin-right: 1em;
+  border-radius: var(--border-radius);
+}
+
+button.edit {
+  color: white;
+  background-color: var(--color-warning);
+}
+
+button.remove {
+  color: white;
+  background-color: var(--color-danger);
+}
+
+.input-number {
+  display: grid;
+  grid-template-columns: 3em 30% 3em;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+}
+
+.grid-layout {
+  display: grid;
+  gap: 1em;
+}
+
+.grid-layout.day-slot {
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.grid-layout.slot {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.grid-layout.slot-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-layout.slot-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-layout.slot-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-layout.slot-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+/* white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis; */
+
+.grid-layout .item {
+  text-align: center;
+  cursor: pointer;
+  padding: var(--padding-action);
+  background-color: #F7F7F9;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  border-radius: var(--border-radius);
+  transition: .2s;
+}
+
+button.active,
+.grid-layout .item.active,
+.grid-layout .item:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.tag-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .5em;
+}
+
+.tag-list .item {
+  padding: .5em;
+  text-align: center;
+  border-radius: var(--border-radius);
+}
+
+.dialog {
+  width: 60%;
+  max-height: 90vh;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+  background-color: white;
+}
+
+.dialog [dialog=header],
+.dialog [dialog=footer] {
+  height: max-content;
+}
+
+.dialog [dialog=content] {
+  height: 100%;
+  min-height: auto;
+  overflow-y: auto;
+}
+
+[form=list] {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+[form=list] .label {
+  margin: 0 0 .5em 0;
+  font-size: .85em;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: .3;
+}
+
+/* MEDIUM SIZE */
+@media screen and (max-width: 1280px) {
+
+  .dialog {
+    width: 80%;
+  }
+
+  .grid-layout.slot-3,
+  .grid-layout.slot-4,
+  .grid-layout.slot-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-layout.day-slot {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* SMALL SIZE */
+@media screen and (max-width: 1024px) {
+
+  .dialog {
+    width: 90%;
+    padding: .5em;
+  }
+  
+  .grid-layout,
+  .grid-layout.slot-2,
+  .grid-layout.slot-3,
+  .grid-layout.slot-4  {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1em;
+  }
+  
+  .grid-layout.day-slot {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+}
+
+/* VERY SMALL SIZE */
+@media screen and (max-width: 640px) {
+
+  .dialog {
+    max-height: 95vh;
+  }
+  
+  .input-number {
+    grid-template-columns: 3em auto 3em;
+  }
+
+}
