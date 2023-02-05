@@ -3,189 +3,230 @@
     General Data
   </h1>
   <div class="campaign-general">
+
     <p class="title text uppercase">
       Infomation
     </p>
     <hr>
-    <div class="grid"></div>
-    <p class="">
-      <span class="label" for="campaign-owner">
-        Campaign Owner
-      </span>
-      <input
-        id="campaign-owner"
-        type="text"
-        placeholder="Campaign owner username">
-    </p>
-    <p class="">
-      <span class="label" for="campaign-name">
-        Campaign Name
-      </span>
-      <input
-        id="campaign-name"
-        type="text"
-        placeholder="Campaign name">
-    </p>
-    <p class="label">
-      Campaign Type
-    </p>
-    <div class="grid-layout slot-5">
-      <div
-        class="item"
-        *ngFor="let item of type; let i = index"
-        [ngClass]="{
-          'active': item.value == campaign.type
-        }"
-        (click)="campaign.type = item.value">
-        {{ item.name }}
-        <hr>
-        <span style="font-size: .85em;">
-          {{ item.desc }}
-        </span>
-        <div *ngIf="
-          (
-            campaign.type == 'REDEEM' ||
-            campaign.type == 'POINT_BONUS'
-          ) &&
-          campaign.type == item.value
-        ">
-          <p class="label text center">
-            AIS Point(s)
-          </p>
-          <div class="input-number">
-            <i class="fa fa-minus"></i>
-            <input type="text" [(ngModel)]="campaign.point">
-            <i class="fa fa-plus"></i>
+
+    <div class="general-info">
+      <div class="grid-layout slot-2">
+        <div class="">
+          <span class="label" for="campaign-owner">
+            Campaign Owner
+          </span>
+          <input
+            id="campaign-owner"
+            type="text"
+            placeholder="">
+        </div>
+        <div class="">
+          <span class="label" for="campaign-name">
+            Campaign Name
+          </span>
+          <input
+            id="campaign-name"
+            type="text"
+            placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="general-point-type">
+      <p class="label">
+        Campaign Type
+      </p>
+      <div class="grid-layout slot-4">
+        <div
+          class="item"
+          *ngFor="let item of type; let i = index"
+          [ngClass]="{
+            'active': item.value == campaign.type
+          }"
+          [ngStyle]="{
+            'height': 'fit-content'
+          }"
+          (click)="
+            campaign.type = item.value
+          ">
+          {{ item.name }}
+        </div>
+
+        <div
+          class="item active"
+          [ngStyle]="{
+            'grid-row': '1 / span 2'
+          }"
+          *ngIf="
+            (
+              campaign.type == 'REDEEM' ||
+              campaign.type == 'POINT_BONUS'
+            )
+          ">
+
+          {{
+            campaign.type == 'REDEEM'
+              ? 'REDEEM'
+              : 'BONUS'
+          }} POINT
+
+          <div
+            class="input-number"
+            [ngStyle]="{
+              'text-align': 'center',
+              'margin-top': '1em'
+            }">
+            <div class="text-center">
+              <button
+                class="circle"
+                [ngStyle]="{
+                  'margin': '0'
+                }">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            
+            <input
+              type="text"
+              [(ngModel)]="campaign.point">
+
+            <div class="text-center">
+              <button
+                class="circle"
+                [ngStyle]="{
+                  'margin': '0'
+                }">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <br end="campaign-general">
-  </div>
-  <div class="campaign-duration">
+
+    <br>
     <p class="title text uppercase">
-      Campaign Duration
+      Duration
     </p>
     <hr>
-    <div class="grid-layout slot-2">
-      <div>
-        <span class="label" for="campaign-start">
-          Start
-        </span>
-        <input 
-          id="campaign-start" 
-          type="text" 
-          placeholder="">
+
+    <div class="general-duration">
+      <div class="grid-layout slot-2">
+        <div>
+          <span class="label" for="campaign-activate">
+            Activate
+          </span>
+          <input 
+            id="campaign-activate" 
+            type="text" 
+            placeholder="">
+        </div>
+        <div class="">
+          <p class="label">
+            From time
+          </p>
+          <input 
+            id="campaign-deactivate" 
+            type="text" 
+            placeholder="">
+        </div>
+        <div>
+          <span class="label" for="campaign-deactivate">
+            Deactivate
+          </span>
+          <input 
+            id="campaign-deactivate" 
+            type="text" 
+            placeholder="">
+        </div>
+        <div class="">
+          <p class="label">
+            To time
+          </p>
+          <input 
+            id="campaign-deactivate" 
+            type="text" 
+            placeholder="">
+        </div>
       </div>
-      <div>
-        <span class="label" for="campaign-start">
-          Stop
-        </span>
-        <input 
-          id="campaign-end" 
-          type="text" 
-          placeholder="">
-      </div>
-      <div>
-        <span class="label" for="campaign-activate">
-          Activate
-        </span>
-        <input 
-          id="campaign-activate" 
-          type="text" 
-          placeholder="">
-      </div>
-      <div>
-        <span class="label" for="campaign-deactivate">
-          Deactivate
-        </span>
-        <input 
-          id="campaign-deactivate" 
-          type="text" 
-          placeholder="">
+      <br>
+      <p class="label">
+        Allowed Day
+      </p>
+      <div class="grid-layout day-slot">
+        <div
+          class="item"
+          *ngFor="let item of day; let i = index"
+          [ngClass]="{
+            'active': activeDay(i)
+          }"
+          (click)="onSelectDay(i)">
+          {{ item }}
+        </div>
       </div>
     </div>
-    <p class="label">
-      Allowed Day
+
+    <br>
+    <p class="title text uppercase">
+      Additional
     </p>
-    <div class="grid-layout day-slot">
-      <div
-        class="item"
-        *ngFor="let item of day; let i = index"
-        [ngClass]="{
-          'active': activeDay(i)
-        }"
-        (click)="onSelectDay(i)">
-        {{ item }}
+    <hr>
+
+    <div class="general-additional">
+      <p class="label">
+        Campaign Audience
+      </p>
+      <div class="grid-layout slot-3">
+        <div 
+          class="item"
+          *ngFor="let item of invite"
+          [ngClass]="{
+            'active': item.value == campaign.invite
+          }"
+          (click)="campaign.invite = item.value">
+          {{ item.name }}
+        </div>
+      </div>
+      <br>
+      <div class="grid-layout slot-2">
+        <div>
+          <p class="label">
+            Campaign Blacklist
+          </p>
+          <div class="grid-layout slot-2">
+            <div 
+              class="item"
+              *ngFor="let item of blacklist"
+              [ngClass]="{
+                'active': item.value == campaign.blacklist
+              }"
+              (click)="campaign.blacklist = item.value">
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="label">
+            Error Notification for NGCM
+          </p>
+          <div class="grid-layout slot-2">
+            <div 
+              class="item"
+              *ngFor="let item of notice"
+              [ngClass]="{
+                'active': item.value == campaign.notice
+              }"
+              (click)="campaign.notice = item.value">
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="grid-layout slot-2">
-      <div class="">
-        <p class="label">
-          From time
-        </p>
-        <input 
-          id="campaign-deactivate" 
-          type="text" 
-          placeholder="">
-      </div>
-      <div class="">
-        <p class="label">
-          To time
-        </p>
-        <input 
-          id="campaign-deactivate" 
-          type="text" 
-          placeholder="">
-      </div>
-    </div>
-    <br end="campaign-duration">
   </div>
-  <div class="campaign-additional">
-    <p class="label">
-      Campaign Audience
-    </p>
-    <div class="grid-layout slot-3">
-      <div 
-        class="item"
-        *ngFor="let item of invite"
-        [ngClass]="{
-          'active': item.value == campaign.invite
-        }"
-        (click)="campaign.invite = item.value">
-        {{ item.name }}
-      </div>
-    </div>
-    <p class="label">
-      Campaign Blacklist
-    </p>
-    <div class="grid-layout slot-2">
-      <div 
-        class="item"
-        *ngFor="let item of blacklist"
-        [ngClass]="{
-          'active': item.value == campaign.blacklist
-        }"
-        (click)="campaign.blacklist = item.value">
-        {{ item.name }}
-      </div>
-    </div>
-    <p class="label">
-      Error Notification for NGCM
-    </p>
-    <div class="grid-layout slot-2">
-      <div 
-        class="item"
-        *ngFor="let item of notice"
-        [ngClass]="{
-          'active': item.value == campaign.notice
-        }"
-        (click)="campaign.notice = item.value">
-        {{ item.name }}
-      </div>
-    </div>
-    <br end="campaign-additional">
-  </div>
+
   <div class="text right">
     <button (click)="goto(navigator['next'])">
       Next

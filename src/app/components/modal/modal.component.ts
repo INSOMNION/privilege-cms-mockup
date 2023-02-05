@@ -26,6 +26,7 @@ export class ModalComponent implements OnInit, OnChanges {
   @Input() title: string = "";
   @Input() subTitle: string = "";
   @Input() display: boolean = false;
+  @Input() width: string = '';
   @Input() loading: boolean = false;
   @Input() closeBackdrop: boolean = false;
 

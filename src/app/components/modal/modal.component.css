@@ -50,7 +50,7 @@
   background-color: #fefefe;
   margin: 0 auto;
   box-shadow: 0 1em 2em 0 rgba(0, 0, 0, 0.1);
-  max-height: 95vh;
+  max-height: 90vh;
 }
 
 [modal="content"].modal-normal {
@@ -71,24 +71,24 @@
 @media screen and (max-width: 1280px) {
 
   [modal="content"].modal-alert {
-    width: 40%;
+    width: 40% !important;
   }
 
   [modal="content"].modal-normal {
-    width: 80%;
-    max-height: 95vh;
+    width: 60% !important;
+    max-height: 90vh;
   }
 }
 
 @media screen and (max-width: 1024px) {
 
   [modal="content"].modal-alert {
-    width: 50%;
+    width: 50% !important;
   }
 
   [modal="content"].modal-normal {
-    width: 85%;
-    max-height: 95vh;
+    width: 85% !important;
+    max-height: 90vh;
   }
 }
 
@@ -96,11 +96,11 @@
 @media screen and (max-width: 768px) {
 
   [modal="content"].modal-alert {
-    width: 80%;
+    width: 90% !important;
   }
 
   [modal="content"].modal-normal {
-    width: 90%;
+    width: 90% !important;
     max-height: 95vh;
   }
 }

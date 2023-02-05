@@ -2,60 +2,77 @@
   <h1 class="heading text center">
     Usability
   </h1>
+  <div>
+
+  </div>
   <div class="campaign-display">
+
     <p class="title text uppercase">
       Display Channels
     </p>
     <hr>
-    <p class="">
-      <span class="label" for="campaign-brand">
-        Cooperate Brand
-      </span>
-      <input
-        id="campaign-brand"
-        type="text"
-        placeholder="Select Brand"
-        (click)="selectBrand()">
-    </p>
-    <p class="label">
-      Display Mobile App
-    </p>
+
     <div class="grid-layout slot-2">
-      <div 
-        class="item"
-        *ngFor="let item of display.mobile"
-        [ngClass]="{
-          'active': item.value == brandDisplay.mobile
-        }"
-        (click)="
-          brandDisplay.mobile = item.value
-        ">
-        {{ item.name }}
+      <div>
+        <p class="label" for="campaign-brand">
+          Cooperate Brand
+        </p>
+        <input
+          id="campaign-brand"
+          type="text"
+          placeholder="Select Brand"
+          (click)="selectBrand()">
+      </div>
+      <div>
+        <p class="label">
+          Web Display
+        </p>
+        <div class="grid-layout slot-2">
+          <div 
+            class="item"
+            *ngFor="let item of display.thank"
+            [ngClass]="{
+              'active': item.value == brandDisplay.thank
+            }"
+            (click)="
+              brandDisplay.thank = item.value
+            ">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>  
+    </div>
+
+    <div [ngStyle]="{
+      'margin-top': '1em'
+    }">
+      <p class="label">
+        Mobile App Display
+      </p>
+      <div class="grid-layout slot-4">
+        <div 
+          class="item"
+          *ngFor="let item of display.mobile"
+          [ngClass]="{
+            'active': item.value == brandDisplay.mobile
+          }"
+          (click)="
+            brandDisplay.mobile = item.value
+          ">
+          {{ item.name }}
+        </div>
       </div>
     </div>
-    <p class="label">
-      Display Logo (Thank You Page)
-    </p>
-    <div class="grid-layout slot-2">
-      <div 
-        class="item"
-        *ngFor="let item of display.thank"
-        [ngClass]="{
-          'active': item.value == brandDisplay.thank
-        }"
-        (click)="
-          brandDisplay.thank = item.value
-        ">
-        {{ item.name }}
-      </div>
-    </div>
-    <br end="campaign-display">
+    
   </div>
+
+  <br>
+  <p class="title text uppercase">
+    Campaign Choices
+  </p>
+  <hr>
+
   <div class="campaign-choice">
-    <p class="title text uppercase">
-      Campaign Choices
-    </p>
-    <hr>
     <div class="choice-list">
       <div
         class="item"
@@ -77,15 +94,15 @@
         </div>
         <div slot="action">
           <button
-            class="edit"
+            class="circle active"
             (click)="updatingChoice(item)">
-            Edit
+            <i class="fa fa-pen"></i>
           </button>
           <button 
-            class="remove"
+            class="circle danger"
             (click)="removeChoice(item.id)"
-            [disabled]="choices.length == 1">
-            Remove
+            [attr.disabled]="choices.length == 1">
+            <i class="fa fa-trash"></i>
           </button>
         </div>
       </div>
@@ -95,26 +112,29 @@
         Add Campaign Choice
       </button>
     </p>
-    <br end="campaign-choice">
   </div>
+
   <div class="container-footer">
     <button (click)="
       goto('/dashboard/add-campaign/general')
     ">
-      Back
+      General
     </button>
     <button (click)="
-      goto('/dashboard/add-campaign/quota')
+      goto('/dashboard/add-campaign/limitation')
     ">
-      Next
+      Limitation
     </button>
   </div>
 </div>
 
-<app-modal [display]="modal.display">
+<app-modal
+  type="alert"
+  [display]="modal.display">
+
   <!-- Search And Select Brand -->
-  <div body 
-    class="modal"
+  <div container 
+    class="modal-brand"
     *ngIf="
       modal.type == 'select-brand'
     ">
@@ -133,8 +153,9 @@
       </button>
     </p>
   </div>
+
   <!-- Add and Update Choice -->
-  <div body 
+  <div container
     class="modal add-choice text center"
     *ngIf="
       modal.type == 'add-choice' ||
@@ -175,8 +196,7 @@
         *ngIf="modal.type == 'update-choice'"
         [disabled]="!validateChoice(choice)"
         (click)="updateChoice(
-          updateId,
-          choice
+          updateId, choice
         )">
         Edit
       </button>
@@ -186,8 +206,9 @@
       </button>
     </p>
   </div>
+
   <!-- Preview Choice -->
-  <div body 
+  <div container
     class="modal preview-choice text center"
     *ngIf="modal.type == 'preview-choice'" >
     <h3>
@@ -222,6 +243,7 @@
     </p>
   </div>
 </app-modal>
+
 <app-modal [display]="alert.display">
   <div body
     class="modal">

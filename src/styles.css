@@ -23,6 +23,7 @@ body {
   margin: 5% auto;
   width: 80%;
   padding: 5%;
+  box-shadow: var(--shadow);
 }
 
 .container-footer {

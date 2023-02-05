@@ -59,18 +59,10 @@
   text-align: right;
 }
 
-.item button {
-  padding: .5em 1em;
-}
-
 .modal {
   margin: 0 auto;
   padding: 1em;
   background: white;
-}
-
-.modal.add-choice {
-  width: 40%;
 }
 
 .modal.preview-choice {

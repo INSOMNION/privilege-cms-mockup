@@ -9,6 +9,11 @@ export const type: {
     desc: "Redeem with AIS Point(s)"
   },
   {
+    name: "BONUS",
+    value: "POINT_BONUS",
+    desc: "AIS Point(s) Bonus for the game-winner."
+  },
+  {
     name: "REGISTER",
     value: "REGISTER_POINT",
     desc: "Register AIS points"
@@ -23,11 +28,7 @@ export const type: {
     value: "CHECK_POINT",
     desc: "Check AIS Points"
   },
-  {
-    name: "BONUS",
-    value: "POINT_BONUS",
-    desc: "AIS Point(s) Bonus for the game-winner."
-  },  
+  
 ]
 
 const day: string[] = [

@@ -95,17 +95,21 @@ export class CampaignLimitationComponent implements OnInit {
   }
 
   openCriteria (): void {
+
     // Set modal state
     this.modal.display = true
     this.modal.type = 'criteria'
+
     // Initilize page
     this.criteria.filter.page = 1
     this.filterCriteria('', 0, 10)
   }
 
   pageCriteria (data: any): void {
+
     // Current page
     this.criteria.filter.page = data.page
+
     // Fetch criteria
     this.filterCriteria(
       this.criteria.filter.text,
@@ -119,6 +123,7 @@ export class CampaignLimitationComponent implements OnInit {
     start: number,
     stop: number
   ): void {
+    
     this.limitService
       .getCriteria(
         text, start, stop
@@ -133,11 +138,14 @@ export class CampaignLimitationComponent implements OnInit {
   }
 
   addCriteria (id: number, name: string): void {
+
     // Existing adding list
     let adding = this.criteria.adding
       .find(e => e.id == id)
+
     let added = this.criteria.added
       .find(e => e.id == id)
+
     if (adding) {
       this.removeCriteria(id)
     }
@@ -147,8 +155,10 @@ export class CampaignLimitationComponent implements OnInit {
   }
 
   removeCriteria(id: number): void {
+
     // Adding criteria List
     let list = this.criteria.adding
+
     // Remove data
     this.criteria.adding = list.filter(e => e.id != id)
   }
@@ -157,15 +167,20 @@ export class CampaignLimitationComponent implements OnInit {
     id: number,
     name: string
   }[]): void {
+
     // Save Confirmation
     let accepted = confirm(`เพิ่ม ${items.length} เกณฑ์รับสิทธิ์ ?`)
+
     if (accepted) {
+
       // Save Criteria
       items.forEach(e => {
         this.criteria.added.push(e)
       })
+
       // Reset adding criteria
       this.criteria.adding = []
+
       // Reset modal
       this.modal.display = false
       this.modal.type = ''  
@@ -173,15 +188,16 @@ export class CampaignLimitationComponent implements OnInit {
   }
 
   deleteCriteria (id: number, name: string): void {
+
     // Delete Confirmation
     let accepted = confirm(`ลบเกณฑ์รับสิทธิ์ ${name} ?`)
     if (accepted) {
+
       // Added criteria list
       let list = this.criteria.added
+
       // Remove data
       this.criteria.added = list.filter(e => e.id != id)
     }
   }
-
-
 }

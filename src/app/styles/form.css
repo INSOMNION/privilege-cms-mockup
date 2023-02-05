@@ -45,14 +45,22 @@ hr.medium-space {
   margin: 1em 0;
 }
 
+.text {
+  margin: .5em 0;
+}
 .label {
-  margin: 1.5em 0 .75em 0;
+  font-weight: bold;
+  margin: 0;
+}
+.sub-label {
+  font-size: 0.85em;
+  margin: 0;
 }
 
-input {
-  font-size: 1em;
-  border: 1px solid gray;
+.label + .sub-label {
+  margin-top: .25em;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -62,17 +70,25 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-p.label + input {
-  margin: 0;
-}
-
+.label + .grid-layout,
+.sub-label + .grid-layout,
 .label + input {
   margin: .5em 0 0 0;
 }
 
-input {
-  width: calc(calc(100% - 1em) - 2px);
+input, button {
+  font-size: 1em;
   padding: .5em;
+}
+
+button.circle {
+  width: 2.5em;
+  border-radius: 50%;
+}
+
+input {
+  border: 1px solid gray;
+  width: calc(calc(100% - 1em) - 2px);
   text-align: center;
   border-radius: var(--border-radius);
 }
@@ -88,11 +104,9 @@ input {
 }
 
 button {
-  font-size: 1em;
   cursor: pointer;
   transition: 0.5s;
   border: 0;
-  padding: var(--padding-action);
   margin-right: 1em;
   border-radius: var(--border-radius);
 }
@@ -167,6 +181,17 @@ button.active,
   color: white;
 }
 
+button.danger,
+.grid-layout .item.danger {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+button[disabled] {
+  color: white;
+  background-color: #B7B7B7;
+}
+
 .tag-list {
   display: flex;
   flex-direction: row;
@@ -221,10 +246,12 @@ button.active,
   .dialog {
     width: 80%;
   }
+  .grid-layout.slot-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   .grid-layout.slot-3,
-  .grid-layout.slot-4,
-  .grid-layout.slot-5 {
+  .grid-layout.slot-4 {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -244,8 +271,9 @@ button.active,
   .grid-layout,
   .grid-layout.slot-2,
   .grid-layout.slot-3,
-  .grid-layout.slot-4  {
-    grid-template-columns: repeat(1, 1fr);
+  .grid-layout.slot-4,
+  .grid-layout.slot-5 {
+    grid-template-columns: repeat(2, 1fr);
     gap: 1em;
   }
   
@@ -266,4 +294,12 @@ button.active,
     grid-template-columns: 3em auto 3em;
   }
 
+  .grid-layout,
+  .grid-layout.slot-2,
+  .grid-layout.slot-3,
+  .grid-layout.slot-4,
+  .grid-layout.slot-5 {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1em;
+  }
 }

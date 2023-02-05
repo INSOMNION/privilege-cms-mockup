@@ -85,6 +85,7 @@ export class CampaignUsabilityComponent implements OnInit {
   addingChoice (): void {
     this.modal.type = 'add-choice'
     this.modal.display = true
+    this.choice = ``
   }
 
   validateChoice (input: string): boolean {
@@ -92,9 +93,11 @@ export class CampaignUsabilityComponent implements OnInit {
   }
 
   updatingChoice (choice:  ChoiceValue): void {
+
     // Open editor
     this.modal.type = 'update-choice'
     this.modal.display = true
+
     // Setup data
     this.choice = choice.value
     this.updateId = choice.id
@@ -112,16 +115,20 @@ export class CampaignUsabilityComponent implements OnInit {
     campaign: string,
     choice: string
   ): string {
+
     // Base ussd
     let ussd = short
+
     // Add campaign code
     ussd = campaign 
       ? ussd.replace('#', `*${campaign}#`)
       : ussd
+
     // Add choice code
     ussd = choice && choice != 'none' 
       ? ussd.replace('#', `*${choice}#`)
       : ussd
+
     // USSD code
     return ussd
   }
@@ -131,12 +138,15 @@ export class CampaignUsabilityComponent implements OnInit {
    * @param value - Choice value
    */
   async addChoice (value: string) {
+
     // Find exist choice
     let exist = this.choices.find(
       e => e.value == value
     )
+
     // Check existing
     if (exist == undefined && !!value) {
+
       // Set choice info
       let id = new Date().getTime()
       let code = Buffer.from(`${value}`, 'utf8').toString('base64')
@@ -147,14 +157,17 @@ export class CampaignUsabilityComponent implements OnInit {
         this.campaignCode, 
         value.toLowerCase()
       )
+
       // Add Data
       this.choices.push({
         id, value, link, image, ussd
       })
+
       // Close modal
       this.modal.display = false
     }
     else {
+
       // Existing handler
       alert('Choice is ' + (!value ? 'empty' : 'exist'))
     }
@@ -168,13 +181,16 @@ export class CampaignUsabilityComponent implements OnInit {
    * @param {string} value - Choice value
    */
    async updateChoice (id: number, value: string) {
+
     // Find exist choice
     let index = this.choices.findIndex(e => e.id == id)
     let exist = this.choices.find(
       e => e.id != id && e.value == value
     )
+
     // Check existing
     if (exist == undefined && index != -1 && !!value) {
+
       // Set choice info
       let code = Buffer.from(`${value}`, 'utf8').toString('base64')
       let link = `http://privilege.ais.co.th/qrcode/${code}?channel=line`
@@ -184,14 +200,17 @@ export class CampaignUsabilityComponent implements OnInit {
         this.campaignCode, 
         value
       )
+
       // Update Data
       this.choices[index] = {
         id, value, link, image, ussd
       }
+
       // Close modal
       this.modal.display = false
     }
     else {
+
       // Existing handler
       alert('Choice is ' + (!value ? 'empty' : 'exist'))
     }
@@ -204,9 +223,11 @@ export class CampaignUsabilityComponent implements OnInit {
    * @param {string} id - Choice id 
    */
   removeChoice (id: number) {
+
     // Confirmation
     let choice = this.choices.find(e => e.id == id)
     let answer = confirm(`Remove choice ${choice?.value} ?`)
+
     // Remove choice
     if (answer) {
       this.choices = this.choices.filter(e => e.id !== id)
@@ -221,6 +242,7 @@ export class CampaignUsabilityComponent implements OnInit {
    * @param {string} input.image - QR code as base64
    */
   previewQRcode (input: ChoiceValue): void {
+
     // Preview Modal
     this.modal.type = 'preview-choice'
     this.modal.display = true
@@ -229,6 +251,7 @@ export class CampaignUsabilityComponent implements OnInit {
         .replace(/#/g, '')
         .replace(/\*/g, '_')
       }.png`
+
     // Preview Content
     this.preview = { ...input, imageName }
   }
